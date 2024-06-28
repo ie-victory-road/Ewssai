@@ -4,8 +4,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dot.dart';
-import 'page.dart';
+import 'info.dart';
+import 'produit.dart';
 
 Future<http.Response> fetchAlbum() {
   return http.get(Uri.parse('https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/rappelconso0/records?select=nature_juridique_du_rappel%2Ccategorie_de_produit%2Csous_categorie_de_produit%2Cnom_de_la_marque_du_produit%2Cnoms_des_modeles_ou_references%2Cidentification_des_produits%2Cinformations_complementaires%2Cmotif_du_rappel%2Crisques_encourus_par_le_consommateur%2Cpreconisations_sanitaires%2Cconduites_a_tenir_par_le_consommateur%2Cnumero_de_contact%2Cmodalites_de_compensation%2Cliens_vers_les_images%2Clien_vers_affichette_pdf%2Clien_vers_la_fiche_rappel%2Cdate_de_publication&order_by=date_de_publication%20desc&limit=20'));
