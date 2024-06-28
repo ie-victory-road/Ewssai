@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dot.dart';
+import 'tried.dart';
 
 Future<http.Response> fetchAlbum() {
   return http.get(Uri.parse('https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/rappelconso0/records?select=nature_juridique_du_rappel%2Ccategorie_de_produit%2Csous_categorie_de_produit%2Cnom_de_la_marque_du_produit%2Cnoms_des_modeles_ou_references%2Cidentification_des_produits%2Cinformations_complementaires%2Cmotif_du_rappel%2Crisques_encourus_par_le_consommateur%2Cpreconisations_sanitaires%2Cconduites_a_tenir_par_le_consommateur%2Cnumero_de_contact%2Cmodalites_de_compensation%2Cliens_vers_les_images%2Clien_vers_affichette_pdf%2Clien_vers_la_fiche_rappel%2Cdate_de_publication&order_by=date_de_publication%20desc&limit=20'));
@@ -37,18 +38,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    
-   /* List<Info> items =[];
-
-  var info1 = Info(image:"https://rappel.conso.gouv.fr/image/e16326b8-059b-4a61-817d-2bd30ef46c4b.jpg", type: "Thon", cate: "PK", what: "ks", precise: "more", risks: "sanit", sanitaires: "dhs", more: "dfe");
-  items.add(info1);
-  var a = info1;
-  var b = Info(image:"https://rappel.conso.gouv.fr/image/e16326b8-059b-4a61-817d-2bd30ef46c4b.jpg", type: "Thon", what: "AIGUILLETTE POULET CORNFLAKE  vendu sur le stand traditionnel rôtissoire de Carrefour CLUSES DU 10 AU 17 JUIN 2024", cate: "Alimentation", precise: "Plats", more: "AIGUILLETTE POULET CORFLAKE vendu sur le stand traditionnel rôtissoire de Carrefour  CLUSES DU 10 AU 17 JUIN 2024", risks: "C'est dangereux", sanitaires: "Faut mettre le masque");
-  var c = b;
-  items.add(a);
-  items.add(b);
-  items.add(c); */
-
   Future<List<Info>> fetchData() async {
         var response = await fetchAlbum();
       if (response.statusCode == 200) {
@@ -210,112 +199,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   }//data.hasdata   
             )
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-  class OurApp extends StatelessWidget {
-    final Info post;
-
-    const OurApp({super.key, required this.post});
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Product Details',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ProductDetailPage(post: post),
-    );
-  }
-}
-
-class ProductDetailPage extends StatelessWidget {
-
-  final Info post;
-
-  const ProductDetailPage({super.key, required this.post});
-  @override
-  Widget build(BuildContext context) {
-    
-      String url = post.rappel!;
-
-  void launchURL() async {
-    if (await canLaunchUrl(url as Uri)) {
-      await launchUrl(url as Uri);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(post.cate!),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-             Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MyApp()),
-            );// Handle back button press
-          },
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CachedNetworkImage(
-              imageUrl: post.image!,
-              placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
-              width: double.infinity,
-              height: 300,
-              fit: BoxFit.cover,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Modèles/Références : ${post.what!}",
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    "Nature juridique du rappel : ${post.type!}",
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "Sous-catégorie : ${post.precise!}",
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    "Informations complémentaires : ${post.more!}",
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    "Risques encourrus : ${post.risks!}",
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  Text(
-                    "Préconisations sanitaires : ${post.sanitaires!}",
-                    style: const TextStyle(fontSize: 16), 
-                  ),
-                ElevatedButton(
-          onPressed: launchURL,
-          child:Text(
-                    "Lien vers la fiche rappel : ${post.rappel!}"
-                  )
-                )
-                ],
-              ),
             ),
           ],
         ),
