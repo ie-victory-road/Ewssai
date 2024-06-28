@@ -32,6 +32,7 @@ class ProductDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     
       String url = post.rappel!;
+      String urt = post.pdf!;
 
   void launchURL() async {
     if (await canLaunchUrl(url as Uri)) {
@@ -40,6 +41,15 @@ class ProductDetailPage extends StatelessWidget {
       throw 'Could not launch $url';
     }
   }
+
+  void launchURL2() async {
+    if (await canLaunchUrl(urt as Uri)) {
+      await launchUrl(urt as Uri);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(post.cate!),
@@ -99,6 +109,12 @@ class ProductDetailPage extends StatelessWidget {
                   ),
                 ElevatedButton(
           onPressed: launchURL,
+          child:Text(
+                    "Lien vers la fiche rappel : ${post.rappel!}"
+                  )
+                )
+                ElevatedButton(
+          onPressed: launchURL2,
           child:Text(
                     "Lien vers la fiche rappel : ${post.rappel!}"
                   )
